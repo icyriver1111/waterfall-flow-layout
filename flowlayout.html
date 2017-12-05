@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>waterfall flow layout</title>
+  <script src="https://cdn.bootcss.com/jquery/3.2.0/jquery.js"></script>
+</head>
+<style>
+
+  .wrap {
+    width: 100%;
+    position: relative;
+  }
+  .wrap .item {
+    position: absolute;
+    transition: all 1s;
+    width: 150px;
+    padding: 1em;
+    font-size: 20px;
+    color: #fff;
+    margin-left: 12px;
+    margin-top: 12px;
+
+  }
+
+  .wrap .item.h1 {
+    background: limegreen;
+    height: 150px;
+  }
+
+  .wrap .item.h2 {
+    background: tomato;
+    height: 300px;
+  }
+
+  .wrap .item.h3 {
+    background: deepskyblue;
+    height: 400px;
+  }
+
+  .wrap .item.h4 {
+    background: darkgrey;
+    height: 200px;
+  }
+</style>
+
+<body>
+
+  <div class="wrap">
+    <div class="item h1">1</div>
+    <div class="item h2">2</div>
+    <div class="item h3">3</div>
+    <div class="item h4">4</div>
+    <div class="item h3">5</div>
+    <div class="item h2">6</div>
+    <div class="item h4">7</div>
+    <div class="item h1">8</div>
+    <div class="item h3">9</div>
+    <div class="item h1">10</div>
+    <div class="item h2">11</div>
+    <div class="item h1">12</div>
+    <div class="item h3">13</div>
+    <div class="item h4">13</div>
+  </div>
+
+
+
+  <script type="text/javascript">
+    waterFail()
+
+    $(window).resize(function() {
+      waterFail()
+    })
+
+    function waterFail() {
+      var nodeWidth = $('.item').outerWidth()
+      var colLength = parseInt($('.wrap').width()/nodeWidth)
+      var itemArr = []
+      for (var i = 0; i < colLength; i++) {
+        itemArr[i] = 0
+      }
+      $('.item').each(function() {
+        var minValue = Math.min.apply(null, itemArr)
+        var minIndex = itemArr.indexOf(minValue)
+        $(this).css({
+          top: itemArr[minIndex],
+          left: $(this).outerWidth(true) * minIndex
+          //true说明带边框
+        })
+        itemArr[minIndex] += $(this).outerHeight(true)
+      })
+    }
+  </script>
+</body>
+
+</html>
